@@ -23,6 +23,7 @@ export default class AppContainer extends Component {
     this.prev = this.prev.bind(this);
     this.selectAlbum = this.selectAlbum.bind(this);
     this.deselectAlbum = this.deselectAlbum.bind(this);
+    this.selectArtist = this.selectArtist.bind(this);
   }
 
   componentDidMount () {
@@ -102,6 +103,17 @@ export default class AppContainer extends Component {
       }));
   }
 
+  selectArtist(artistId){
+    let artist;
+     axios.get(`/api/artists/${artistId}`)
+     .then(({data}) => artist = data)
+     .then(() => axios.get(`/api/artists/${artistId}/albums`))
+     .then(({data}) => artist.albums = data)
+      .then(() => axios.get(`/api/artists/${artistId}/songs`))
+     .then(({data}) => artist.songs = data)
+     .then(() => this.setState({selectedArtist: artist}));
+  }
+
   deselectAlbum () {
     this.setState({ selectedAlbum: {}});
   }
@@ -124,7 +136,8 @@ export default class AppContainer extends Component {
             selectAlbum: this.selectAlbum,
             selectedAlbum: this.state.selectedAlbum,
             artists: this.state.artists,
-            selectedArtist: this.state.selectedArtist
+            selectedArtist: this.state.selectedArtist,
+            selectArtist: this.selectArtist
           }) : null
         }
         </div>
