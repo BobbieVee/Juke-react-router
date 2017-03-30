@@ -1,6 +1,7 @@
 import React from 'react';
 import Songs from './Songs';
-import Albums from './Albums'
+import Albums from './Albums';
+import {Link} from 'react-router';
 
 class Artist extends React.Component{
   constructor(props){
@@ -15,7 +16,26 @@ class Artist extends React.Component{
 
 render(){
   const artist = this.props.selectedArtist || {};
-  return (
+
+  const selectedArtist = this.props.selectedArtist;
+const children = this.props.children;
+const propsToPassToChildren = Object.assign({}, this.props, {
+  albums: artist.albums || [],
+  songs: artist.albums || []
+});
+
+return (
+<div>
+  <h3>{ selectedArtist.name }</h3>
+  <ul className="nav nav-tabs">
+    <li><Link to={`artists/${this.props.routeParams.artistId}/albums`}>ALBUMS</Link></li>
+    <li><Link to={`artists/${this.props.routeParams.artistId}/songs`}>SONGS</Link></li>
+  </ul>
+  { children && React.cloneElement(children, propsToPassToChildren) }
+</div>
+);
+
+  /*return (
     <div>
     <Albums albums = {artist.albums || []} />
       <Songs
@@ -24,8 +44,8 @@ render(){
         isPlaying={this.props.isPlaying}
         toggleOne={this.props.toggleOne} />
     </div>
-  );
+  );*/
 }
 }
 
-export default Artist
+export default Artist;
