@@ -18,6 +18,7 @@ ReactDOM.render(
 				<Route path="albums" component={Albums} />
 				<Route path="songs" component={Songs} />
 			</Route>
+			<Route path="*" component= {Albums} />
 		</Route>
     </Router>,
   document.getElementById('app')
